@@ -16,19 +16,10 @@ import {
     TFeatureFlags,
 } from "./mod.ts";
 
-type State<
-    Environment extends string,
-    Schema extends FeatureFlagSchema,
-> = {
-    featureFlags: FeatureFlags<Environment, Schema>;
-    state: TFeatureFlags<Schema>;
-};
-
 // deno-lint-ignore no-explicit-any
-export const FeatureFlagContext = createContext<State<any, any>>({
-    featureFlags: new FeatureFlags({ schema: {} }),
-    state: {},
-});
+export const FeatureFlagContext = createContext<FeatureFlags<any, any>>(
+    new FeatureFlags({ schema: {} }),
+);
 
 export function FeatureFlagProvider<
     Environment extends string,
@@ -47,16 +38,6 @@ export function FeatureFlagProvider<
     const featureFlags = options.featureFlags ||
         new FeatureFlags<Environment, Schema>(options.options);
 
-    const state = useSyncExternalStore<TFeatureFlags<Schema>>(
-        (listener) => {
-            featureFlags.subscribe(listener);
-            return () => featureFlags.unsubscribe(listener);
-        },
-        () => ({ ...featureFlags.store }),
-    );
-
-    const value = { featureFlags, state };
-
     useEffect(() => {
         if (!hydratedOverrides) return;
         const flags = FeatureFlags.listOptionsFromSchema(featureFlags.schema);
@@ -72,27 +53,37 @@ export function FeatureFlagProvider<
         });
     }, []);
 
-    return FeatureFlagContext.Provider({ value, children });
+    return FeatureFlagContext.Provider({ value: featureFlags, children });
 }
 
 // deno-lint-ignore no-explicit-any
-export function useFeatureFlags<Schema extends FeatureFlagSchema = any>(
+export function useFeatureFlagsFactory<Schema extends FeatureFlagSchema = any>(
     _: { schema: Schema },
 ) {
-    const { featureFlags, state } = useContext(FeatureFlagContext) as State<
-        "",
-        Schema
-    >;
+    return () => {
+        const featureFlags = useContext(FeatureFlagContext) as FeatureFlags<
+            "",
+            Schema
+        >;
 
-    function setState(updates: Partial<TFeatureFlags<Schema>>) {
-        const flags = Object.keys(updates) as (keyof typeof updates)[];
-        flags.forEach((flag) => {
-            const v = updates[flag];
-            if (FeatureFlags.isValidValue(v)) {
-                featureFlags.set(flag, v);
-            }
-        });
-    }
+        const state = useSyncExternalStore<TFeatureFlags<Schema>>(
+            (listener) => {
+                featureFlags.subscribe(listener);
+                return () => featureFlags.unsubscribe(listener);
+            },
+            () => ({ ...featureFlags.store }),
+        );
 
-    return [state, setState];
+        function setState(updates: Partial<TFeatureFlags<Schema>>) {
+            const flags = Object.keys(updates) as (keyof typeof updates)[];
+            flags.forEach((flag) => {
+                const v = updates[flag];
+                if (FeatureFlags.isValidValue(v)) {
+                    featureFlags.set(flag, v);
+                }
+            });
+        }
+
+        return [state, setState];
+    };
 }
