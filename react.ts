@@ -3,6 +3,7 @@
 // @deno-types="npm:@types/react"
 import {
     createContext,
+    createElement,
     ReactNode,
     useContext,
     useEffect,
@@ -53,7 +54,7 @@ export function FeatureFlagProvider<
         });
     }, []);
 
-    return FeatureFlagContext.Provider({ value: featureFlags, children });
+    return createElement(FeatureFlagContext.Provider, { value: featureFlags, children });
 }
 
 // deno-lint-ignore no-explicit-any
