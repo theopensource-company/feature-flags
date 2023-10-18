@@ -1,0 +1,25 @@
+name: Publish to NPM
+on:
+  push:
+    tags:
+      - '*'
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          registry-url: 'https://registry.npmjs.org'
+      - uses: actions/checkout@v3
+
+      - name: Compile NPM package
+        run: deno task compile
+        
+      - name: Publish to NPM
+        run: cd ./npm && npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

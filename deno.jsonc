@@ -1,0 +1,9 @@
+{
+    "tasks": {
+        "compile": "deno run -A compile.ts"
+    },
+    "fmt": {
+        "lineWidth": 80,
+        "indentWidth": 4
+    }
+}
