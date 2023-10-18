@@ -84,6 +84,6 @@ export function featureFlagsHookFactory<Schema extends FeatureFlagSchema = any>(
             });
         }
 
-        return [state, setState];
+        return [state, setState] as const;
     };
 }
