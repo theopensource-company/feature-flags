@@ -57,7 +57,7 @@ export function FeatureFlagProvider<
 }
 
 // deno-lint-ignore no-explicit-any
-export function useFeatureFlagsFactory<Schema extends FeatureFlagSchema = any>(
+export function featureFlagsHookFactory<Schema extends FeatureFlagSchema = any>(
     _: { schema: Schema },
 ) {
     return () => {
