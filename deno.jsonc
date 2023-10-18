@@ -4,6 +4,13 @@
     },
     "fmt": {
         "lineWidth": 80,
-        "indentWidth": 4
+        "indentWidth": 4,
+        "exclude": ["npm/"]
+    },
+    "lint": {
+        "exclude": ["npm/"]
+    },
+    "test": {
+        "exclude": ["npm/"]
     }
 }
