@@ -14,14 +14,18 @@ export class FeatureFlags<
         subscription,
     }: {
         schema: Schema;
-        environment: Environment;
+        environment?: Environment;
         defaults?: FeatureFlagDefaults<Environment | string, Schema>;
         overrides?: Overrides<Schema>;
         subscription?: Subscription<Schema>;
     }) {
-        const defaults = defaultsInput && environment in defaultsInput
-            ? defaultsInput[environment]
-            : undefined;
+        if (defaultsInput && !environment) {
+            throw new Error("Got defaults but no environment");
+        }
+        const defaults =
+            defaultsInput && environment && environment in defaultsInput
+                ? defaultsInput[environment]
+                : undefined;
         this.schema = schema;
         this.store = new Proxy(
             FeatureFlags.computeStore({ schema, defaults, overrides }),
