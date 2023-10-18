@@ -203,7 +203,7 @@ export type Overrides<Schema extends FeatureFlagSchema> = <
     T extends FeatureFlag<Schema>,
 >(
     flag: T,
-) => FeatureFlagOption<Schema, T>;
+) => FeatureFlagValue | void;
 export type Subscription<Schema extends FeatureFlagSchema> = <
     T extends FeatureFlag<Schema>,
 >(flag: T, value: FeatureFlagOption<Schema, T>) => unknown | Promise<unknown>;
