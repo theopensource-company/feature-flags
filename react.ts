@@ -54,7 +54,11 @@ export function FeatureFlagProvider<
         });
     }, []);
 
-    return createElement(FeatureFlagContext.Provider, { value: featureFlags }, children);
+    return createElement(
+        FeatureFlagContext.Provider,
+        { value: featureFlags },
+        children,
+    );
 }
 
 // deno-lint-ignore no-explicit-any
