@@ -117,5 +117,49 @@
     "https://deno.land/x/ts_morph@18.0.0/common/mod.ts": "01985d2ee7da8d1caee318a9d07664774fbee4e31602bc2bb6bb62c3489555ed",
     "https://deno.land/x/ts_morph@18.0.0/common/ts_morph_common.js": "845671ca951073400ce142f8acefa2d39ea9a51e29ca80928642f3f8cf2b7700",
     "https://deno.land/x/ts_morph@18.0.0/common/typescript.js": "d5c598b6a2db2202d0428fca5fd79fc9a301a71880831a805d778797d2413c59"
+  },
+  "npm": {
+    "specifiers": {
+      "@types/react": "@types/react@18.2.28",
+      "react@^18.2": "react@18.2.0"
+    },
+    "packages": {
+      "@types/prop-types@15.7.8": {
+        "integrity": "sha512-kMpQpfZKSCBqltAJwskgePRaYRFukDkm1oItcAbC3gNELR20XIBcN9VRgg4+m8DKsTfkWeA4m4Imp4DDuWy7FQ==",
+        "dependencies": {}
+      },
+      "@types/react@18.2.28": {
+        "integrity": "sha512-ad4aa/RaaJS3hyGz0BGegdnSRXQBkd1CCYDCdNjBPg90UUpLgo+WlJqb9fMYUxtehmzF3PJaTWqRZjko6BRzBg==",
+        "dependencies": {
+          "@types/prop-types": "@types/prop-types@15.7.8",
+          "@types/scheduler": "@types/scheduler@0.16.4",
+          "csstype": "csstype@3.1.2"
+        }
+      },
+      "@types/scheduler@0.16.4": {
+        "integrity": "sha512-2L9ifAGl7wmXwP4v3pN4p2FLhD0O1qsJpvKmNin5VA8+UvNVb447UDaAEV6UdrkA+m/Xs58U1RFps44x6TFsVQ==",
+        "dependencies": {}
+      },
+      "csstype@3.1.2": {
+        "integrity": "sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==",
+        "dependencies": {}
+      },
+      "js-tokens@4.0.0": {
+        "integrity": "sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==",
+        "dependencies": {}
+      },
+      "loose-envify@1.4.0": {
+        "integrity": "sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==",
+        "dependencies": {
+          "js-tokens": "js-tokens@4.0.0"
+        }
+      },
+      "react@18.2.0": {
+        "integrity": "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==",
+        "dependencies": {
+          "loose-envify": "loose-envify@1.4.0"
+        }
+      }
+    }
   }
 }

@@ -2,9 +2,9 @@ export class FeatureFlags<
     Environment extends string,
     Schema extends FeatureFlagSchema,
 > {
-    private readonly schema: Schema;
     private subscriptions: Subscription<Schema>[] = [];
-    public store: TFeatureFlags<Schema>;
+    public readonly schema: Schema;
+    private _store: TFeatureFlags<Schema>;
 
     constructor({
         schema,
@@ -27,7 +27,7 @@ export class FeatureFlags<
                 ? defaultsInput[environment]
                 : undefined;
         this.schema = schema;
-        this.store = new Proxy(
+        this._store = new Proxy(
             FeatureFlags.computeStore({ schema, defaults, overrides }),
             {
                 set: (store, flag, value) => {
@@ -55,17 +55,29 @@ export class FeatureFlags<
 
     subscribe(subscription: Subscription<Schema>) {
         this.subscriptions.push(subscription);
+        return true;
+    }
+
+    unsubscribe(subscription: Subscription<Schema>) {
+        const index = this.subscriptions.indexOf(subscription);
+        if (index) this.subscriptions.splice(index, 1);
+        return !!index;
+    }
+
+    get store() {
+        return this._store;
     }
 
     get(flag: FeatureFlag<Schema>) {
-        return this.store[flag];
+        return this._store[flag];
     }
 
     set<Flag extends FeatureFlag<Schema>>(
         flag: Flag,
         value: FeatureFlagOption<Schema, Flag>,
     ) {
-        this.store[flag] = value;
+        this._store[flag] = value;
+        return true;
     }
 
     static computeStore<Schema extends FeatureFlagSchema>({
