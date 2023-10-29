@@ -5,7 +5,6 @@
 
 This package contains abstraction of logic to handle feature flags.
 
-
 [![](https://img.shields.io/badge/license-Apache_License_2.0-00bfff.svg?style=flat-square)](https://github.com/theopensource-company/feature-flags)
 [![](https://img.shields.io/npm/v/@theopensource-company/feature-flags?style=flat-square)](https://www.npmjs.com/package/@theopensource-company/feature-flags)
 [![](https://img.shields.io/npm/v/@theopensource-company/feature-flags?style=flat-square&label=deno)](https://deno.land/x/featureflags)
@@ -110,40 +109,43 @@ const options = FeatureFlags.createOptions({
 
 ## Use with React.js
 
-This library exposes a provider and a hook to use this library in a reactive manner with React.js.
-The below snippets give an example as to how you _could_ implement this library. It might differ for your usecase.
+This library exposes a provider and a hook to use this library in a reactive
+manner with React.js. The below snippets give an example as to how you _could_
+implement this library. It might differ for your usecase.
 
 #### `feature-flags.ts`
+
 This file contains all configuration for the feature flags
 
 ```ts
-import React, { type ReactNode } from 'react';
-import { FeatureFlags } from '@theopensource-company/feature-flags';
-import { featureFlagsHookFactory } from '@theopensource-company/feature-flags/react';
+import React, { type ReactNode } from "react";
+import { FeatureFlags } from "@theopensource-company/feature-flags";
+import { featureFlagsHookFactory } from "@theopensource-company/feature-flags/react";
 
 export const featureFlags = new FeatureFlags({
     schema: {
         test: {
-            options: [true, false]
-        }
-    }
+            options: [true, false],
+        },
+    },
 });
 
 // By passing the FeatureFlags instance, the factory will automatically inherit types from the schema.
 export const useFeatureFlags = featureFlagsHookFactory(featureFlags);
 ```
 
-
 #### `providers.tsx`
-Some file which renders only on the client. Usually a central place in react applications to wrap all providers in one place.
+
+Some file which renders only on the client. Usually a central place in react
+applications to wrap all providers in one place.
 
 ```tsx
-import React from 'react';
-import { featureFlags } from 'feature-flags.ts';
-import { FeatureFlagProvider } from '@theopensource-company/feature-flags/react'
+import React from "react";
+import { featureFlags } from "feature-flags.ts";
+import { FeatureFlagProvider } from "@theopensource-company/feature-flags/react";
 
 export default function Providers(
-    { children }: { children: ReactNode }
+    { children }: { children: ReactNode },
 ) {
     return (
         <FeatureFlagProvider featureFlags={featureFlags}>
@@ -153,12 +155,12 @@ export default function Providers(
 }
 ```
 
-
 #### `some-page.tsx`
+
 Some page which needs feature flags
 
 ```tsx
-import { useFeatureFlags } from 'feature-flags.ts';
+import { useFeatureFlags } from "feature-flags.ts";
 
 export default function Page() {
     const [flags, setFlags] = useFeatureFlags();
@@ -168,15 +170,16 @@ export default function Page() {
             <label htmlFor="test">
                 Test enabled
             </label>
-            <input 
-                id="test" 
-                type="checkbox" 
-                checked={flags.test} 
-                onChange={() => setFlags({
-                    test: !flags.test
-                })} 
+            <input
+                id="test"
+                type="checkbox"
+                checked={flags.test}
+                onChange={() =>
+                    setFlags({
+                        test: !flags.test,
+                    })}
             />
         </>
-    )
+    );
 }
 ```
