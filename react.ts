@@ -19,16 +19,21 @@ import {
 
 // deno-lint-ignore no-explicit-any
 type AnyFeatureFlags = FeatureFlags<any, any>;
-type State<T extends AnyFeatureFlags> = [TFeatureFlags<T['schema']>, (updates: Partial<TFeatureFlags<T['schema']>>) => void];
+type State<T extends AnyFeatureFlags> = [
+    TFeatureFlags<T["schema"]>,
+    (updates: Partial<TFeatureFlags<T["schema"]>>) => void,
+];
 
 type ContextContent<T extends AnyFeatureFlags> = {
     featureFlags: T;
     state: State<T>;
-}
+};
 
-export const FeatureFlagContext = createContext<ContextContent<AnyFeatureFlags>>({
+export const FeatureFlagContext = createContext<
+    ContextContent<AnyFeatureFlags>
+>({
     featureFlags: new FeatureFlags({ schema: {} }),
-    state: [{}, () => {}]
+    state: [{}, () => {}],
 });
 
 export function FeatureFlagProvider<
@@ -54,12 +59,16 @@ export function FeatureFlagProvider<
             return () => featureFlags.unsubscribe(listener);
         },
         () => JSON.stringify(featureFlags.store),
-        () => JSON.stringify(featureFlags.initialStore)
+        () => JSON.stringify(featureFlags.initialStore),
     );
 
-    const state = JSON.parse(jsonState) as TFeatureFlags<typeof featureFlags['schema']>;
+    const state = JSON.parse(jsonState) as TFeatureFlags<
+        typeof featureFlags["schema"]
+    >;
 
-    function setState(updates: Partial<TFeatureFlags<typeof featureFlags['schema']>>) {
+    function setState(
+        updates: Partial<TFeatureFlags<typeof featureFlags["schema"]>>,
+    ) {
         const flags = Object.keys(updates) as (keyof typeof updates)[];
         flags.forEach((flag) => {
             const v = updates[flag];
@@ -86,7 +95,12 @@ export function FeatureFlagProvider<
 
     return createElement(
         FeatureFlagContext.Provider,
-        { value: { featureFlags, state: [state, setState] as State<typeof featureFlags> } },
+        {
+            value: {
+                featureFlags,
+                state: [state, setState] as State<typeof featureFlags>,
+            },
+        },
         children,
     );
 }
@@ -95,7 +109,7 @@ export function featureFlagsHookFactory<T extends AnyFeatureFlags>(
     _: T,
 ) {
     return () => {
-        const { state } = useContext(FeatureFlagContext) as ContextContent<T>
+        const { state } = useContext(FeatureFlagContext) as ContextContent<T>;
         return state;
     };
 }
