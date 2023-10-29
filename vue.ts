@@ -1,17 +1,15 @@
 import { onUnmounted, shallowRef } from "npm:vue";
-import { FeatureFlags, TFeatureFlags } from "./mod.ts";
-
-// deno-lint-ignore no-explicit-any
-type AnyFeatureFlags = FeatureFlags<any, any>;
+import { FeatureFlags, type TFeatureFlags, type AnyFeatureFlags } from "./mod.ts";
 
 export function featureFlagsHookFactory<T extends AnyFeatureFlags>(
     featureFlags: T,
 ) {
     return () => {
-        const state = shallowRef({ ...featureFlags.store });
+        type Schema = typeof featureFlags["schema"];
+        const state = shallowRef<Schema>({ ...featureFlags.store });
 
         const setState = (
-            updates: Partial<TFeatureFlags<(typeof featureFlags)["schema"]>>,
+            updates: Partial<TFeatureFlags<Schema>>,
         ) => {
             const flags = Object.keys(updates) as (keyof typeof updates)[];
             flags.forEach((flag) => {

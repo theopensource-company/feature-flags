@@ -4,21 +4,20 @@
 import {
     createContext,
     createElement,
-    ReactNode,
+    type ReactNode,
     useContext,
     useEffect,
     useSyncExternalStore,
 } from "npm:react";
 
 import {
+    type AnyFeatureFlags,
     FeatureFlags,
-    FeatureFlagSchema,
-    Overrides,
-    TFeatureFlags,
+    type FeatureFlagSchema,
+    type Overrides,
+    type TFeatureFlags,
 } from "./mod.ts";
 
-// deno-lint-ignore no-explicit-any
-type AnyFeatureFlags = FeatureFlags<any, any>;
 type State<T extends AnyFeatureFlags> = [
     TFeatureFlags<T["schema"]>,
     (updates: Partial<TFeatureFlags<T["schema"]>>) => void,

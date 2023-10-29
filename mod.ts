@@ -221,3 +221,6 @@ export type Overrides<Schema extends FeatureFlagSchema> = <
 export type Subscription<Schema extends FeatureFlagSchema> = <
     T extends FeatureFlag<Schema>,
 >(flag: T, value: FeatureFlagOption<Schema, T>) => unknown | Promise<unknown>;
+
+// deno-lint-ignore no-explicit-any
+export type AnyFeatureFlags = FeatureFlags<any, any>;
