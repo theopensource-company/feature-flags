@@ -4,6 +4,7 @@ export class FeatureFlags<
 > {
     private subscriptions: Subscription<Schema>[] = [];
     public readonly schema: Schema;
+    public readonly initialStore: TFeatureFlags<Schema>;
     private _store: TFeatureFlags<Schema>;
 
     constructor({
@@ -50,6 +51,7 @@ export class FeatureFlags<
             },
         );
 
+        this.initialStore = { ...this._store };
         if (subscription) this.subscriptions.push(subscription);
     }
 
