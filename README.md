@@ -180,3 +180,45 @@ export default function Page() {
     );
 }
 ```
+
+## Use with Vue.js
+
+This library exposes a hook to use this library in a reactive manner with
+Vue.js. The below snippets give an example as to how you _could_ implement this
+library. It might differ for your usecase.
+
+#### `feature-flags.ts`
+
+This file contains all configuration for the feature flags
+
+```ts
+import { FeatureFlags } from "@theopensource-company/feature-flags";
+import { featureFlagsHookFactory } from "@theopensource-company/feature-flags/vue";
+
+export const featureFlags = new FeatureFlags({
+    schema: {
+        test: {
+            options: [true, false],
+        },
+    },
+});
+
+export const useFeatureFlags = featureFlagsHookFactory(featureFlags);
+```
+
+#### `SomePage.vue`
+
+Some page which needs feature flags
+
+```html
+<script>
+    import { useFeatureFlags } from 'feature-flags.ts';
+    const [flags, setFlags] = useFeatureFlags();
+</script>
+
+<template>
+    <button v-on:click="setFlags({ test: !flags.test })">
+        {{ flags.toString() }}
+    </button>
+</template>
+```

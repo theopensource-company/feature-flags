@@ -5,10 +5,17 @@ import project from "./project.json" assert { type: "json" };
 await emptyDir("./npm");
 
 await build({
-    entryPoints: ["./mod.ts", {
-        name: "./react",
-        path: "react.ts",
-    }],
+    entryPoints: [
+        "./mod.ts",
+        {
+            name: "./react",
+            path: "react.ts",
+        },
+        {
+            name: "./vue",
+            path: "vue.ts",
+        },
+    ],
     outDir: "./npm",
     shims: {
         // see JS docs for overview and more options
