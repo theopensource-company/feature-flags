@@ -1,5 +1,9 @@
 import { onUnmounted, shallowRef } from "npm:vue";
-import { FeatureFlags, type TFeatureFlags, type AnyFeatureFlags } from "./mod.ts";
+import {
+    type AnyFeatureFlags,
+    FeatureFlags,
+    type TFeatureFlags,
+} from "./mod.ts";
 
 export function featureFlagsHookFactory<T extends AnyFeatureFlags>(
     featureFlags: T,
