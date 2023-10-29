@@ -1,7 +1,4 @@
-<div style="display: flex; align-items: center; gap: 20px; margin: 15px 0px;">
-    <img alt="TOSC Logo" src="https://avatars.githubusercontent.com/u/110784955?s=48&v=4" style="border-radius: 5px;" width=35 height=35 />
-    <h1 style=" border: none; padding: 0px; margin: 0px; margin-bottom: 2px;">Feature Flags</h1>
-</div>
+# Feature Flags
 
 This package contains abstraction of logic to handle feature flags.
 
