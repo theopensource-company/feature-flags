@@ -70,7 +70,7 @@ export class FeatureFlags<
         return this._store;
     }
 
-    get(flag: FeatureFlag<Schema>) {
+    get<Flag extends FeatureFlag<Schema>>(flag: Flag): FeatureFlagOption<Schema, Flag> {
         return this._store[flag];
     }
 
